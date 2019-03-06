@@ -246,7 +246,7 @@ void write_pid_file(const char *pidfile)
  *
  * Function    :  hash_string
  *
- * Description :  Take a string and compute a (hopefuly) unique numeric
+ * Description :  Take a string and compute a (hopefully) unique numeric
  *                integer value. This is useful to "switch" a string.
  *
  * Parameters  :
@@ -947,7 +947,7 @@ time_t timegm(struct tm *tm)
 Author
 
    Mark Martinec <mark.martinec@ijs.si>, April 1999, June 2000
-   Copyright © 1999, Mark Martinec
+   Copyright Â©1999, Mark Martinec
 
  */
 
