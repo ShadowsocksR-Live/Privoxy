@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+*.opensdf
+*.sdf
+*.suo
+*.vcxproj.user
+ipch/
+windows/Debug
+windows/Release

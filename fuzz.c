@@ -33,7 +33,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
+#if !defined(_WIN32) && !defined(__OS2__)
 #include <unistd.h>
+#endif
 
 #include "project.h"
 #include "filters.h"

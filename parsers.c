@@ -1697,6 +1697,7 @@ static jb_err server_proxy_connection(struct client_state *csp, char **header)
    return JB_ERR_OK;
 }
 
+#endif /* def FEATURE_CONNECTION_KEEP_ALIVE */
 
 /*********************************************************************
  *
@@ -1727,6 +1728,7 @@ static jb_err proxy_authentication(struct client_state *csp, char **header)
    return JB_ERR_OK;
 }
 
+#ifdef FEATURE_CONNECTION_KEEP_ALIVE
 
 /*********************************************************************
  *

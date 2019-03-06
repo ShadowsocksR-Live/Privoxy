@@ -43,7 +43,11 @@
 #include "miscutil.h"
 
 /* For gettimeofday() */
+#if defined (_WIN32) || defined(WIN32)
+#include <time.h>
+#else
 #include <sys/time.h>
+#endif
 
 #if !defined(_WIN32) && !defined(__OS2__)
 #include <unistd.h>
