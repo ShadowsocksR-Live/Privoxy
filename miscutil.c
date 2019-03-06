@@ -947,7 +947,7 @@ time_t timegm(struct tm *tm)
 Author
 
    Mark Martinec <mark.martinec@ijs.si>, April 1999, June 2000
-   Copyright ©1999, Mark Martinec
+   Copyright © 1999, Mark Martinec
 
  */
 
