@@ -31,6 +31,7 @@
 *.out
 *.app
 
+*.aps
 *.opensdf
 *.sdf
 *.suo
