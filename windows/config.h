@@ -21,6 +21,7 @@
 //#define FUZZ 1
 
 #define FEATURE_CLIENT_TAGS 1
+#define FEATURE_TOGGLE 1
 
 //#define HAVE_UNISTD_H 1
 
