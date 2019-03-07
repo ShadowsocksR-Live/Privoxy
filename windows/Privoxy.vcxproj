@@ -124,10 +124,7 @@
     <ClCompile Include="..\cgi.c" />
     <ClCompile Include="..\cgiedit.c" />
     <ClCompile Include="..\cgisimple.c" />
-    <ClCompile Include="..\client-tags.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="..\client-tags.c" />
     <ClCompile Include="..\deanimate.c" />
     <ClCompile Include="..\encode.c" />
     <ClCompile Include="..\errlog.c" />

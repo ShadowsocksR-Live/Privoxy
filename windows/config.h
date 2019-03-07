@@ -20,6 +20,8 @@
 //#define FEATURE_ZLIB 1
 //#define FUZZ 1
 
+#define FEATURE_CLIENT_TAGS 1
+
 //#define HAVE_UNISTD_H 1
 
 #ifdef _MSC_VER 
