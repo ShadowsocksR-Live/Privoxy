@@ -1199,6 +1199,7 @@ int portable_snprintf(char *str, size_t str_m, const char *fmt, /*args*/ ...) {
 }
 #endif
 
+#if !defined(_MSC_VER)
 #if defined(NEED_SNPRINTF_ONLY)
 int portable_snprintf(char *str, size_t str_m, const char *fmt, /*args*/ ...) {
 #else
@@ -1691,6 +1692,8 @@ int portable_vsnprintf(char *str, size_t str_m, const char *fmt, va_list ap) {
 }
 #endif
 #endif /* ndef HAVE_SNPRINTF */
+#endif /* ndef _MSC_VER */
+
 /*
   Local Variables:
   tab-width: 3
