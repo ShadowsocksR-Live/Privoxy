@@ -1159,7 +1159,7 @@ static jb_socket socks5_connect(const struct forward_spec *fwd,
             "Optimistically sending %llu bytes of client body. Expected %llu",
             csp->expected_client_content_length, buffered_request_bytes);
          assert(csp->expected_client_content_length == buffered_request_bytes);
-         if (write_socket(sfd, csp->client_iob->cur, buffered_request_bytes))
+         if (write_socket(sfd, csp->client_iob->cur, (size_t)buffered_request_bytes))
          {
             log_error(LOG_LEVEL_CONNECT,
                "optimistically writing %llu bytes of client body to: %s failed: %E",

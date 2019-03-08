@@ -137,7 +137,7 @@ static void set_no_delay_flag(int fd)
 #ifdef TCP_NODELAY
    int mi = 1;
 
-   if (setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, &mi, sizeof(int)))
+   if (setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, (const void *)&mi, sizeof(int)))
    {
       log_error(LOG_LEVEL_ERROR,
          "Failed to disable TCP coalescence for socket %d", fd);
@@ -403,7 +403,7 @@ static jb_socket rfc2553_connect_to(const char *host, int portnum, struct client
 #endif
       {
          socklen_t optlen = sizeof(socket_error);
-         if (!getsockopt(fd, SOL_SOCKET, SO_ERROR, &socket_error, &optlen))
+         if (!getsockopt(fd, SOL_SOCKET, SO_ERROR, (void *)&socket_error, &optlen))
          {
             if (!socket_error)
             {
@@ -1435,7 +1435,7 @@ int accept_connection(struct client_state * csp, jb_socket fds[])
       struct linger linger_options;
       linger_options.l_onoff  = 1;
       linger_options.l_linger = 5;
-      if (0 != setsockopt(afd, SOL_SOCKET, SO_LINGER, &linger_options, sizeof(linger_options)))
+      if (0 != setsockopt(afd, SOL_SOCKET, SO_LINGER, (const void *)&linger_options, sizeof(linger_options)))
       {
          log_error(LOG_LEVEL_ERROR, "Setting SO_LINGER on socket %d failed.", afd);
       }

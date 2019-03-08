@@ -773,7 +773,7 @@ long int pick_from_range(long int range)
  * Returns     :  The length of the string that privoxy_strlcpy() tried to create.
  *
  *********************************************************************/
-size_t privoxy_strlcpy(char *destination, const char *source, const size_t size)
+size_t privoxy_strlcpy(char *destination, const char *source, size_t size)
 {
    if (0 < size)
    {
@@ -807,7 +807,7 @@ size_t privoxy_strlcpy(char *destination, const char *source, const size_t size)
  * Returns     :  The length of the string that privoxy_strlcat() tried to create.
  *
  *********************************************************************/
-size_t privoxy_strlcat(char *destination, const char *source, const size_t size)
+size_t privoxy_strlcat(char *destination, const char *source, size_t size)
 {
    const size_t old_length = strlen(destination);
    return old_length + strlcpy(destination + old_length, source, size - old_length);
@@ -1070,7 +1070,9 @@ int vasnprintf (char **ptr, size_t str_m, const char *fmt, va_list ap);
 #if !defined(HAVE_SNPRINTF) || defined(PREFER_PORTABLE_SNPRINTF)
 int portable_snprintf(char *str, size_t str_m, const char *fmt, /*args*/ ...);
 #if !defined(NEED_SNPRINTF_ONLY)
+#if !defined(_MSC_VER)
 int portable_vsnprintf(char *str, size_t str_m, const char *fmt, va_list ap);
+#endif /* ndef _MSC_VER */
 #endif
 #endif
 
