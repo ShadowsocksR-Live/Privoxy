@@ -48,6 +48,8 @@ int privoxy_main_entry(const char *conf_path, privoxy_cb cb, void *data) {
 
 static void listen_loop_with_cb(privoxy_cb cb, void *data)
 {
+   jb_socket listen_fd = JB_INVALID_SOCKET;
+
    struct client_states *csp_list = NULL;
    struct client_state *csp = NULL;
    jb_socket bfds[MAX_LISTENING_SOCKETS];
@@ -72,7 +74,8 @@ static void listen_loop_with_cb(privoxy_cb cb, void *data)
 
    bind_ports_helper(config, bfds);
 
-   cb(bfds[0], data);
+   listen_fd = bfds[0];
+   cb(listen_fd, data);
 
 #ifdef FEATURE_GRACEFUL_TERMINATION
    while (!g_terminate)
@@ -349,6 +352,8 @@ static void listen_loop_with_cb(privoxy_cb cb, void *data)
       }
    }
 
+   close_socket(listen_fd);
+
 #if defined(FEATURE_PTHREAD)
    pthread_attr_destroy(&attrs);
 #endif
@@ -388,7 +393,6 @@ static void listen_loop_with_cb(privoxy_cb cb, void *data)
    freez(basedir);
 #endif
 #endif /* FEATURE_GRACEFUL_TERMINATION */
-
 }
 
 extern void privoxy_shutdown(void) {
