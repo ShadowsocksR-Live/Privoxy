@@ -697,6 +697,7 @@
 					__REGEX_H_,
 					_REGEX_H_,
 					__MINGW32__,
+					FEATURE_GRACEFUL_TERMINATION,
 					"$(inherited)",
 				);
 				HEADER_SEARCH_PATHS = (
@@ -735,6 +736,7 @@
 					__REGEX_H_,
 					_REGEX_H_,
 					__MINGW32__,
+					FEATURE_GRACEFUL_TERMINATION,
 					"$(inherited)",
 				);
 				HEADER_SEARCH_PATHS = (
@@ -774,6 +776,7 @@
 					__REGEX_H_,
 					_REGEX_H_,
 					__MINGW32__,
+					FEATURE_GRACEFUL_TERMINATION,
 					"$(inherited)",
 				);
 				HEADER_SEARCH_PATHS = (
@@ -813,6 +816,7 @@
 					__REGEX_H_,
 					_REGEX_H_,
 					__MINGW32__,
+					FEATURE_GRACEFUL_TERMINATION,
 					"$(inherited)",
 				);
 				HEADER_SEARCH_PATHS = (
