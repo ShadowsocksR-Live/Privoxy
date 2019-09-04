@@ -2874,7 +2874,7 @@ jb_err cgi_edit_actions_for_url(struct client_state *csp,
                }
                else
                {
-                  char *filter_line;
+                  char *filter_line = NULL;
 
                   if (!err) err = map(line_exports, "index", 1, number, 1);
                   if (!err) err = map(line_exports, "name",  1, filter_group->name, 1);
@@ -3874,7 +3874,7 @@ jb_err cgi_edit_actions_section_swap(struct client_state *csp,
                                      const struct map *parameters)
 {
    unsigned section1;
-   unsigned section2;
+   unsigned section2 = 0;
    struct editable_file * file;
    struct file_line * cur_line;
    struct file_line * prev_line;

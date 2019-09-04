@@ -723,6 +723,7 @@ static jb_socket socks4_connect(const struct forward_spec * fwd,
    jb_socket sfd;
    int err = 0;
    char *errstr = NULL;
+   char *userid;
 
    if ((fwd->gateway_host == NULL) || (*fwd->gateway_host == '\0'))
    {
@@ -746,8 +747,8 @@ static jb_socket socks4_connect(const struct forward_spec * fwd,
    }
 
    /* build a socks request for connection to the web server */
-
-   strlcpy(&(c->userid), socks_userid, sizeof(buf) - sizeof(struct socks_op));
+   userid = &(c->userid);
+   strlcpy(userid, socks_userid, sizeof(buf) - sizeof(struct socks_op));
 
    csiz = sizeof(*c) + sizeof(socks_userid) - sizeof(c->userid) - sizeof(c->padding);
 

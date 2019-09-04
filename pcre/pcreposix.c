@@ -244,9 +244,9 @@ if (nmatch > 0)
   }
 
 rc = pcre_exec(preg->re_pcre, NULL, string, (int)strlen(string), 0, options,
-  ovector, nmatch * 3);
+  ovector, (int)(nmatch * 3));
 
-if (rc == 0) rc = nmatch;    /* All captured slots were filled in */
+if (rc == 0) rc = (int)nmatch;    /* All captured slots were filled in */
 
 if (rc >= 0)
   {

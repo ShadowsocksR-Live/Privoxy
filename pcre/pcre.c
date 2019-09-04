@@ -462,7 +462,7 @@ static void
 pchars(const uschar *p, int length, BOOL is_subject, match_data *md)
 {
 int c;
-if (is_subject && length > md->end_subject - p) length = md->end_subject - p;
+if (is_subject && length > md->end_subject - p) length = (int)(md->end_subject - p);
 while (length-- > 0)
   if (isprint(c = *(p++))) printf("%c", c); else printf("\\x%02x", c);
 }
@@ -1142,7 +1142,7 @@ for (;; ptr++)
           ptr++;
           }
 
-        posix_class = check_posix_name(ptr, tempptr - ptr);
+        posix_class = check_posix_name(ptr, (int)(tempptr - ptr));
         if (posix_class < 0)
           {
           *errorptr = ERR30;
@@ -1558,7 +1558,7 @@ for (;; ptr++)
       {
       register int i;
       int ketoffset = 0;
-      int len = code - previous;
+      int len = (int)(code - previous);
       uschar *bralink = NULL;
 
       /* If the maximum repeat count is unlimited, find the end of the bracket
@@ -1571,7 +1571,7 @@ for (;; ptr++)
         {
         register uschar *ket = previous;
         do ket += (ket[1] << 8) + ket[2]; while (*ket != OP_KET);
-        ketoffset = code - ket;
+        ketoffset = (int)(code - ket);
         }
 
       /* The case of a zero minimum is special because of the need to stick
@@ -1629,7 +1629,7 @@ for (;; ptr++)
           /* We chain together the bracket offset fields that have to be
           filled in later when the ends of the brackets are reached. */
 
-          offset = (bralink == NULL)? 0 : previous - bralink;
+          offset = (bralink == NULL)? 0 : (int)(previous - bralink);
           bralink = previous;
           *previous++ = offset >> 8;
           *previous++ = offset & 255;
@@ -1671,7 +1671,7 @@ for (;; ptr++)
             {
             int offset;
             *code++ = OP_BRA;
-            offset = (bralink == NULL)? 0 : code - bralink;
+            offset = (bralink == NULL)? 0 : (int)(code - bralink);
             bralink = code;
             *code++ = offset >> 8;
             *code++ = offset & 255;
@@ -1687,7 +1687,7 @@ for (;; ptr++)
         while (bralink != NULL)
           {
           int oldlinkoffset;
-          int offset = code - bralink + 1;
+          int offset = (int)(code - bralink + 1);
           uschar *bra = code - offset;
           oldlinkoffset = (bra[1] << 8) + bra[2];
           bralink = (oldlinkoffset == 0)? NULL : bralink - oldlinkoffset;
@@ -2170,7 +2170,7 @@ for (;;)
 
   /* Fill in the length of the last branch */
 
-  length = code - last_branch;
+  length = (int)(code - last_branch);
   last_branch[1] = length >> 8;
   last_branch[2] = length & 255;
 
@@ -2219,7 +2219,7 @@ for (;;)
 
   if (*ptr != '|')
     {
-    length = code - start_bracket;
+    length = (int)(code - start_bracket);
     *code++ = OP_KET;
     *code++ = length >> 8;
     *code++ = length & 255;
@@ -3103,7 +3103,7 @@ if (*errorptr != NULL)
   {
   (pcre_free)(re);
   PCRE_ERROR_RETURN:
-  *erroroffset = ptr - (const uschar *)pattern;
+  *erroroffset = (int)(ptr - (const uschar *)pattern);
   return NULL;
   }
 
@@ -3184,7 +3184,7 @@ while (code < code_end)
   {
   int charlength;
 
-  printf("%3d ", code - code_base);
+  printf("%3d ", (int)(code - code_base));
 
   if (*code >= OP_BRA)
     {
@@ -3381,7 +3381,7 @@ if (code - re->code > length)
   {
   *errorptr = ERR23;
   (pcre_free)(re);
-  *erroroffset = ptr - (uschar *)pattern;
+  *erroroffset = (int)(ptr - (uschar *)pattern);
   return NULL;
   }
 #endif
@@ -3532,7 +3532,7 @@ for (;;)
       int save_offset3 = md->offset_vector[md->offset_end - number];
 
       DPRINTF(("saving %d %d %d\n", save_offset1, save_offset2, save_offset3));
-      md->offset_vector[md->offset_end - number] = eptr - md->start_subject;
+      md->offset_vector[md->offset_end - number] = (int)(eptr - md->start_subject);
 
       do
         {
@@ -3885,7 +3885,7 @@ for (;;)
             {
             md->offset_vector[offset] =
               md->offset_vector[md->offset_end - number];
-            md->offset_vector[offset+1] = eptr - md->start_subject;
+            md->offset_vector[offset+1] = (int)(eptr - md->start_subject);
             if (offset_top <= offset) offset_top = offset + 2;
             }
           }
@@ -4075,7 +4075,7 @@ for (;;)
       minima. */
 
       length = (offset >= offset_top || md->offset_vector[offset] < 0)?
-        md->end_subject - eptr + 1 :
+        (int)(md->end_subject - eptr + 1) :
         md->offset_vector[offset+1] - md->offset_vector[offset];
 
       /* Set up for repetition, or handle the non-repeated case */
@@ -4757,7 +4757,7 @@ for (;;)
         else
           {
           c = max - min;
-          if (c > md->end_subject - eptr) c = md->end_subject - eptr;
+          if (c > md->end_subject - eptr) c = (int)(md->end_subject - eptr);
           eptr += c;
           }
         break;
@@ -5046,7 +5046,7 @@ do
 
 #ifdef DEBUG  /* Sigh. Some compilers never learn. */
   printf(">>>> Match against: ");
-  pchars(start_match, end_subject - start_match, TRUE, &match_block);
+  pchars(start_match, (int)(end_subject - start_match), TRUE, &match_block);
   printf("\n");
 #endif
 
@@ -5135,8 +5135,8 @@ do
 
   if (match_block.offset_end < 2) rc = 0; else
     {
-    offsets[0] = start_match - match_block.start_subject;
-    offsets[1] = match_block.end_match_ptr - match_block.start_subject;
+    offsets[0] = (int)(start_match - match_block.start_subject);
+    offsets[1] = (int)(match_block.end_match_ptr - match_block.start_subject);
     }
 
   DPRINTF((">>>> returning %d\n", rc));

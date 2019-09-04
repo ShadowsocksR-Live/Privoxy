@@ -293,7 +293,7 @@ int strcmpic(const char *s1, const char *s2)
       {
          break;
       }
-      s1++, s2++;
+      (void)(s1++), s2++;
    }
    return(privoxy_tolower(*s1) - privoxy_tolower(*s2));
 
@@ -329,7 +329,7 @@ int strncmpic(const char *s1, const char *s2, size_t n)
 
       if (--n <= (size_t)0) break;
 
-      s1++, s2++;
+      (void)(s1++), s2++;
    }
    return(privoxy_tolower(*s1) - privoxy_tolower(*s2));
 
