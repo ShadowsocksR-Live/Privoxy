@@ -51,5 +51,6 @@ xcuserdata/
 *.suo
 *.vcxproj.user
 ipch/
+windows/x64
 windows/Debug
 windows/Release
