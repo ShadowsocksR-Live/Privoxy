@@ -75,7 +75,9 @@ static void listen_loop_with_cb(privoxy_cb cb, void *data)
    bind_ports_helper(config, bfds);
 
    listen_fd = bfds[0];
-   cb(listen_fd, data);
+   if (cb) {
+      cb(listen_fd, data);
+   }
 
 #ifdef FEATURE_GRACEFUL_TERMINATION
    while (!g_terminate)

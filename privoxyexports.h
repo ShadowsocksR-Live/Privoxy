@@ -6,7 +6,7 @@ extern "C" {
 #endif
 
 
-typedef void (*privoxy_cb)(int fd, void *data);
+typedef void (*privoxy_cb)(int listen_fd, void *data);
 extern int privoxy_main_entry(const char *conf_path, privoxy_cb cb, void *data);
 extern void privoxy_shutdown(void);
 
