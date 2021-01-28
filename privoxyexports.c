@@ -43,18 +43,19 @@ int privoxy_main_entry(const char *conf_path, privoxy_cb cb, void *data) {
 
     listen_loop_with_cb(cb, data);
 
+    release_mutexes();
+
     return 0;
 }
 
-jb_socket g_bfds[MAX_LISTENING_SOCKETS];
+jb_socket bfds[MAX_LISTENING_SOCKETS] = { 0 };
 
 static void listen_loop_with_cb(privoxy_cb cb, void *data)
 {
-   jb_socket listen_fd = JB_INVALID_SOCKET;
+   jb_socket *listen_fd = NULL;
 
    struct client_states *csp_list = NULL;
    struct client_state *csp = NULL;
-   jb_socket bfds[MAX_LISTENING_SOCKETS];
    struct configuration_spec *config;
    unsigned int active_threads = 0;
 #if defined(FEATURE_PTHREAD)
@@ -76,12 +77,11 @@ static void listen_loop_with_cb(privoxy_cb cb, void *data)
 
    bind_ports_helper(config, bfds);
 
-   memcpy(g_bfds, bfds, sizeof(bfds));
    g_terminate = 0;
 
-   listen_fd = bfds[0];
+   listen_fd = &bfds[0];
    if (cb) {
-      cb(listen_fd, data);
+      cb((int) *listen_fd, data);
    }
 
 #ifdef FEATURE_GRACEFUL_TERMINATION
@@ -129,7 +129,7 @@ static void listen_loop_with_cb(privoxy_cb cb, void *data)
        */
       csp->config = config;
 
-      if (!accept_connection(csp, bfds))
+      if ((*listen_fd == JB_INVALID_SOCKET) || !accept_connection(csp, bfds))
       {
          log_error(LOG_LEVEL_CONNECT, "accept failed: %E");
          freez(csp_list);
@@ -359,7 +359,9 @@ static void listen_loop_with_cb(privoxy_cb cb, void *data)
       }
    }
 
-   close_socket(listen_fd);
+   if (*listen_fd != JB_INVALID_SOCKET) {
+      close_socket(*listen_fd);
+   }
 
 #if defined(FEATURE_PTHREAD)
    pthread_attr_destroy(&attrs);
@@ -403,8 +405,11 @@ static void listen_loop_with_cb(privoxy_cb cb, void *data)
 }
 
 extern void privoxy_shutdown(void) {
+    jb_socket bfds_cache[MAX_LISTENING_SOCKETS];
 #ifdef FEATURE_GRACEFUL_TERMINATION
     g_terminate = 1;
 #endif
-    close_ports_helper(g_bfds);
+    memcpy(bfds_cache, bfds, sizeof(bfds_cache));
+    bfds[0] = JB_INVALID_SOCKET;
+    close_ports_helper(bfds_cache);
 }
